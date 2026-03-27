@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Protocol Respect | M & E | v3.0</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --primary-dark: #1e2b38;
+            --accent: #8e44ad;
+            --accent-glow: #9b59b6;
+            --glass: rgba(255, 255, 255, 0.92);
+            --border: rgba(44, 62, 80, 0.12);
+            --success: #27ae60;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e8eef2 0%, #d5dee5 100%);
+            background-image: radial-gradient(circle at 10% 20%, rgba(142, 68, 173, 0.03) 0%, transparent 50%),
+                              repeating-linear-gradient(0deg, rgba(44, 62, 80, 0.02) 0px, rgba(44, 62, 80, 0.02) 1px, transparent 1px, transparent 20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* عناصر خلفية متحركة */
+        .bg-orb {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(142,68,173,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: floatBg 20s infinite alternate;
+        }
+        @keyframes floatBg {
+            0% { transform: translate(-20%, -20%) scale(1); opacity: 0.4; }
+            100% { transform: translate(30%, 30%) scale(1.3); opacity: 0.7; }
+        }
+
+        /* الحاوية الرئيسية بتأثير زجاجي مطور */
+        .cyber-wrapper {
+            width: 100%;
+            max-width: 520px;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            padding: 45px 35px;
+            box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.6) inset, 0 0 0 1px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 10;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .cyber-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 40px 70px -20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* مراحل الموقع */
+        .step { display: none; text-align: center; }
+        .step.active { display: block; animation: stepFade 0.65s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+
+        @keyframes stepFade {
+            from { opacity: 0; transform: translateY(20px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* أيقونات SVG متطورة */
+        .svg-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            display: block;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.05));
+            transition: transform 0.3s;
+        }
+        .step.active .svg-icon {
+            animation: iconPop 0.5s ease;
+        }
+        @keyframes iconPop {
+            0% { transform: scale(0.8); opacity: 0; }
+            80% { transform: scale(1.05); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        h2 {
+            font-family: 'Amiri', serif;
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        p.info {
+            font-size: 15px;
+            color: #5a6e7c;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        /* مدخلات أنيقة */
+        .input-group {
+            margin-bottom: 28px;
+            position: relative;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 18px 24px;
+            border-radius: 60px;
+            border: 1.5px solid rgba(44, 62, 80, 0.15);
+            background: rgba(255,255,255,0.9);
+            font-size: 17px;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.25s;
+            text-align: center;
+            color: var(--primary);
+        }
+        .input-group input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.15);
+            background: white;
+            transform: scale(1.01);
+        }
+
+        /* أزرار مضيئة */
+        .action-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 60px;
+            background: linear-gradient(105deg, var(--primary), var(--primary-dark));
+            color: white;
+            font-weight: 800;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 18px rgba(44, 62, 80, 0.2);
+            letter-spacing: 0.3px;
+        }
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(44, 62, 80, 0.25);
+            filter: brightness(1.03);
+        }
+        .action-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* الرسالة النهائية - بطاقة عاطفية */
+        .letter-content {
+            background: linear-gradient(145deg, #ffffff, #fef9f0);
+            padding: 30px 28px;
+            border-radius: 32px;
+            text-align: right;
+            border-right: 6px solid var(--accent);
+            margin-bottom: 28px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255,255,255,0.8);
+            transition: all 0.3s;
+        }
+        .letter-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.2rem;
+            line-height: 1.95;
+            color: #2c3e4e;
+            font-weight: 500;
+        }
+        .letter-text b {
+            color: #8e44ad;
+            font-weight: 800;
+            background: linear-gradient(135deg, #8e44ad, #c0392b);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        .signature {
+            margin-top: 20px;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+            font-size: 1rem;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            padding-top: 12px;
+            text-align: left;
+            font-family: 'Amiri', serif;
+        }
+
+        /* تلميحات ذكية */
+        .puzzle-hint {
+            font-size: 13px;
+            color: #7f8c8d;
+            background: rgba(142, 68, 173, 0.05);
+            padding: 12px 16px;
+            border-radius: 28px;
+            margin-top: 18px;
+            display: inline-block;
+            width: auto;
+            backdrop-filter: blur(4px);
+        }
+
+        /* زر فيسبوك أنيق */
+        .fb-link-custom {
+            text-decoration: none;
+            display: block;
+        }
+        .fb-btn {
+            background: linear-gradient(105deg, #1877f2, #0e63c4);
+            box-shadow: 0 8px 18px rgba(24, 119, 242, 0.2);
+        }
+        .fb-btn:hover {
+            background: linear-gradient(105deg, #1a74e4, #0c54a8);
+        }
+
+        /* رسالة نجاح صغيرة */
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 200;
+            font-weight: bold;
+        }
+
+        /* مؤشر تحميل */
+        .ripple-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .ripple-effect:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, #fff 10%, transparent 10%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10);
+            opacity: 0;
+            transition: transform 0.5s, opacity 0.6s;
+        }
+        .ripple-effect:active:after {
+            transform: scale(0);
+            opacity: 0.3;
+            transition: 0s;
+        }
+
+        @media (max-width: 550px) {
+            .cyber-wrapper { padding: 32px 22px; }
+            h2 { font-size: 26px; }
+            .letter-text { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-orb" style="top: -150px; left: -100px;"></div>
+    <div class="bg-orb" style="bottom: -120px; right: -80px; width: 600px; height: 600px; animation-duration: 25s;"></div>
+
+    <div class="cyber-wrapper">
+        <!-- المرحلة الأولى: اسم إسراء -->
+        <div id="step-1" class="step active">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C9.243 2 7 4.243 7 7V9H6C4.897 9 4 9.897 4 11V20C4 21.103 4.897 22 6 22H18C19.103 22 20 21.103 20 20V11C20 9.897 19.103 9 18 9H17V7C17 4.243 14.757 2 12 2ZM9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7V9H9V7ZM12 16C11.172 16 10.5 15.328 10.5 14.5C10.5 13.672 11.172 13 12 13C12.828 13 13.5 13.672 13.5 14.5C13.5 15.328 12.828 16 12 16Z" fill="#2c3e50"/>
+            </svg>
+            <h2>بروتوكول التصريح</h2>
+            <p class="info">أهلاً بكِ.. هذه المساحة مصممة خصيصاً من أجلكِ. يرجى كتابة اسمكِ للدخول.</p>
+            <div class="input-group">
+                <input type="text" id="name-in" placeholder="اسمكِ الجميل (إسراء أو Esra)" autocomplete="off">
+            </div>
+            <button class="action-btn ripple-effect" id="step1Btn">تأكيد الهوية 🔑</button>
+        </div>
+
+        <!-- المرحلة الثانية: اسم معاذ (اللقب الوحيد) بالعربية أو الأجنبية -->
+        <div id="step-2" class="step">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 5C13.1 5 14 5.9 14 7C14 8.1 13.1 9 12 9C10.9 9 10 8.1 10 7C10 5.9 10.9 5 12 5ZM12 19.2C9.5 19.2 7.29 17.92 6 15.98C6.03 13.99 10 12.9 12 12.9C13.99 12.9 17.97 13.99 18 15.98C16.71 17.92 14.5 19.2 12 19.2Z" fill="#2c3e50"/>
+            </svg>
+            <h2>تأكيد الصانع</h2>
+            <p class="info">اسم مبرمج تلقايه في qr لي راه عندك</p>
+            <div class="input-group">
+                <input type="text" id="cfg-in" placeholder="اسم المبرمج" autocomplete="off">
+            </div>
+            <button class="action-btn ripple-effect" id="step2Btn">فك القفل 🔓</button>
+            <div class="puzzle-hint">
+                تلميح : تلقايه في ورقة بار كود ولا qr
+            </div>
+        </div>
+
+        <!-- المرحلة الثالثة: الرسالة النهائية -->
+        <div id="step-3" class="step">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="#2c3e50"/>
+            </svg>
+            <h2>رسالة من عندي 🙂</h2>
+            <div class="letter-content">
+                <div class="letter-text">
+                    <br>شوفي اسراء راني نستنى فيك راني مسحقك بزاف وبلا توسويس زايد انا <b>معاذ زروقي</b><br>
+                </div>
+                <span class="signature">— معاذ زروقي (Mouad Zerouki)</span>
+            </div>
+            <a href="https://www.facebook.com/Ahmed.meoud.24" target="_blank" class="fb-link-custom">
+                <button class="action-btn fb-btn ripple-effect">بعثيلي "اسراء ولا سلام" على فيسبوك نفهمك</button>
+            </a>
+            <div class="puzzle-hint" style="margin-top: 20px;">
+                راني نستنى في ميساج تاعك😁
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-msg" class="toast-msg">✓ تم التحقق بنجاح</div>
+
+    <audio id="success-sound" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3"></audio>
+
+    <script>
+        (function() {
+            // عناصر DOM
+            const step1Div = document.getElementById('step-1');
+            const step2Div = document.getElementById('step-2');
+            const step3Div = document.getElementById('step-3');
+            const nameInput = document.getElementById('name-in');
+            const devInput = document.getElementById('cfg-in');
+            const step1Button = document.getElementById('step1Btn');
+            const step2Button = document.getElementById('step2Btn');
+            const sound = document.getElementById('success-sound');
+            const toastMsg = document.getElementById('toast-msg');
+
+            // وظيفة تشغيل الصوت بلطف
+            function playSuccessSound() {
+                if (sound) {
+                    sound.volume = 0.3;
+                    sound.play().catch(e => console.log("تفاعل مطلوب لتشغيل الصوت"));
+                }
+            }
+
+            // عرض رسالة منبثقة صغيرة
+            function showToast(message, isError = false) {
+                toastMsg.textContent = message;
+                toastMsg.style.backgroundColor = isError ? '#e74c3c' : '#2c3e50';
+                toastMsg.style.opacity = '1';
+                setTimeout(() => {
+                    toastMsg.style.opacity = '0';
+                }, 2000);
+            }
+
+            // وظيفة الانتقال بين المراحل بشكل سلس
+            function switchToStep(stepNumber) {
+                const steps = [step1Div, step2Div, step3Div];
+                for (let i = 0; i < steps.length; i++) {
+                    if (steps[i]) {
+                        steps[i].classList.remove('active');
+                        steps[i].style.display = 'none';
+                    }
+                }
+                const targetStep = document.getElementById(`step-${stepNumber}`);
+                if (targetStep) {
+                    targetStep.style.display = 'block';
+                    setTimeout(() => {
+                        targetStep.classList.add('active');
+                        // إضافة تأثير اهتزاز خفيف للاحتفاء
+                        const wrapper = document.querySelector('.cyber-wrapper');
+                        wrapper.style.transform = 'scale(0.99)';
+                        setTimeout(() => { wrapper.style.transform = ''; }, 200);
+                    }, 20);
+                }
+            }
+
+            // التحقق من المرحلة 1: اسم إسراء بجميع صيغه
+            function validateIsraName() {
+                let rawName = nameInput.value.trim();
+                if (rawName === "") {
+                    showToast("يرجى كتابة اسمك أولاً", true);
+                    return false;
+                }
+                const normalized = rawName.toLowerCase().replace(/\s/g, '');
+                // قائمة موسعة لأسماء إسراء
+                const allowedNames = ['إسراء', 'اسراء', 'esra', 'esraa', 'israa', 'isra'];
+                let isValid = allowedNames.some(valid => normalized === valid);
+                // التحقق أيضاً إذا كان النص يحتوي على إسراء بالعربية
+                if (!isValid && (rawName.includes('إسراء') || rawName.includes('اسراء'))) {
+                    isValid = true;
+                }
+                if (!isValid) {
+                    showToast("الاسم غير معتمد، يجب أن يكون إسراء / Esra / israa / isra", true);
+                    nameInput.style.borderColor = "#e74c3c";
+                    setTimeout(() => nameInput.style.borderColor = "", 1000);
+                    return false;
+                }
+                return true;
+            }
+
+            // التحقق من المرحلة 2: اسم معاذ فقط - بالعربية أو بأي صيغة أجنبية تدل على "معاذ" أو "Mouad" أو "Zerouki" 
+            // (الشرط: يحتوي على أي من المتغيرات الأساسية للقب معاذ)
+            function validateMouadName() {
+                let inputVal = devInput.value.trim();
+                if (inputVal === "") {
+                    showToast("الرجاء إدخال اسم المبرمج", true);
+                    return false;
+                }
+                const lowerVal = inputVal.toLowerCase().replace(/\s+/g, ' ').trim();
+                
+                // القائمة الكاملة للقب "معاذ" بالعربية و الأجنبية + اللقب Zerouki
+                const mouadKeywords = [
+                    "معاذ", "مـعاذ", "معاذزروقي", "معاذ زروقي",
+                    "mouad", "mouadzerouki", "mouad zerouki", "mouad.zrk", "mouad.zr",
+                    "mouad.dev", "mouadzrk", "mouadz", "zerouki", "zrk"
+                ];
+                
+                let isValid = false;
+                for (let keyword of mouadKeywords) {
+                    if (lowerVal.includes(keyword)) {
+                        isValid = true;
+                        break;
+                    }
+                }
+                // قبول حتى لو كتب mouad فقط
+                if (lowerVal === "mouad" || lowerVal === "معاذ") isValid = true;
+                
+                // قبول صيغة "mouad24" أو أي شيئ يحوي mouad
+                if (lowerVal.includes("mouad") || lowerVal.includes("معاذ")) isValid = true;
+                
+                if (!isValid) {
+                    showToast("الاسم غير مطابق للقب المبرمج", true);
+                    devInput.style.borderColor = "#e74c3c";
+                    setTimeout(() => devInput.style.borderColor = "", 1000);
+                    return false;
+                }
+                return true;
+            }
+
+            // معالج الخطوة الأولى
+            function handleStep1() {
+                if (validateIsraName()) {
+                    playSuccessSound();
+                    showToast("✓ مرحباً إسراء، تم فتح الباب الأول");
+                    switchToStep(2);
+                }
+            }
+
+            // معالج الخطوة الثانية (اسم معاذ فقط)
+            function handleStep2() {
+                if (validateMouadName()) {
+                    playSuccessSound();
+                    showToast("✓ تم التحقق من هوية الصانع، مرحباً بك في الخاتمة");
+                    switchToStep(3);
+                }
+            }
+
+            // ربط الأحداث
+            step1Button.addEventListener('click', handleStep1);
+            step2Button.addEventListener('click', handleStep2);
+            
+            // إدخال عبر الضغط على Enter
+            nameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') handleStep1();
+            });
+            devInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') handleStep2();
+            });
+            
+            // تفعيل الصوت بأول تفاعل (للتغلب على سياسة المتصفحات)
+            const enableAudioOnce = () => {
+                if (sound) {
+                    sound.load();
+                    sound.volume = 0.3;
+                    sound.play().catch(() => {});
+                }
+                document.body.removeEventListener('click', enableAudioOnce);
+                document.body.removeEventListener('touchstart', enableAudioOnce);
+            };
+            document.body.addEventListener('click', enableAudioOnce);
+            document.body.addEventListener('touchstart', enableAudioOnce);
+            
+            // تأثيرات إضافية: تلوين الأزرار بتأثير موجة
+            const btns = document.querySelectorAll('.action-btn');
+            btns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    let ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.backgroundColor = 'rgba(255,255,255,0.5)';
+                    ripple.style.width = '20px';
+                    ripple.style.height = '20px';
+                    ripple.style.transform = 'scale(1)';
+                    ripple.style.opacity = '0';
+                    const rect = btn.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    const x = e.clientX - rect.left - size/2;
+                    const y = e.clientY - rect.top - size/2;
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    ripple.style.transition = 'transform 0.4s, opacity 0.5s';
+                    btn.style.position = 'relative';
+                    btn.style.overflow = 'hidden';
+                    ripple.style.pointerEvents = 'none';
+                    btn.appendChild(ripple);
+                    setTimeout(() => {
+                        ripple.style.transform = 'scale(4)';
+                        ripple.style.opacity = '0.3';
+                    }, 10);
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 500);
+                });
+            });
+            
+            // إضافة تلميحات إضافية ديناميكية للمرحلة الثانية بشكل مباشر 
+            const hintDiv = document.querySelector('#step-2 .puzzle-hint');
+            if (hintDiv) {
+                let texts = ["واحد فيلسوف في برمجة ويكرهك بيها 🙂", "اسم مبرمج واحد كان يقرى معاك عام لي فات كان يريح حذى هشام🙂"];
+                let idx = 0;
+                setInterval(() => {
+                    if (step2Div && step2Div.classList.contains('active')) {
+                        idx = (idx + 1) % texts.length;
+                        hintDiv.innerHTML = `✨ ${texts[idx]}`;
+                    }
+                }, 4000);
+            }
+            
+            // تحسين ظهور الرسالة عند الوصول للخطوة الثالثة مع تأثير تلألؤ
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mut) => {
+                    if (mut.target.classList && mut.target.classList.contains('active') && mut.target.id === 'step-3') {
+                        const letter = document.querySelector('.letter-content');
+                        if (letter) {
+                            letter.style.animation = 'stepFade 0.7s ease';
+                            setTimeout(() => { letter.style.animation = ''; }, 700);
+                        }
+                    }
+                });
+            });
+            observer.observe(step3Div, { attributes: true, attributeFilter: ['class'] });
+            
+            // تحسين الشكل العام للرسالة النهائية
+            const style = document.createElement('style');
+            style.textContent = `
+                .ripple {
+                    position: absolute;
+                    border-radius: 50%;
+                    background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
+                    transform: scale(0);
+                    animation: rippleAnim 0.5s linear;
+                    pointer-events: none;
+                }
+                @keyframes rippleAnim {
+                    to { transform: scale(6); opacity: 0; }
+                }
+                .action-btn { position: relative; overflow: hidden; }
+                .letter-text b {
+                    background: linear-gradient(115deg, #8e44ad, #c0392b);
+                    background-clip: text;
+                    -webkit-background-clip: text;
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // التأكد من أن كل شيء يظهر بشكل آمن في بداية التشغيل
+            if (!step1Div.classList.contains('active')) {
+                step1Div.style.display = 'block';
+                step1Div.classList.add('active');
+                step2Div.style.display = 'none';
+                step3Div.style.display = 'none';
+            }
+            
+            // معاينة الإصدار: إضافة خاصية ذكية لتأكيد أن اسم معاذ هو المطلوب فقط
+            console.log("✅ Protocol v3.0 | Special for Israa & Mouad");
+        })();
+    </script>
+</body>
+</html>
