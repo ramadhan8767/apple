@@ -2,595 +2,587 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Protocol Respect | M & E | v3.0</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Apple App Mods | ماين كرافت ستايل - طلب مسبق</title>
     <style>
-        :root {
-            --primary: #2c3e50;
-            --primary-dark: #1e2b38;
-            --accent: #8e44ad;
-            --accent-glow: #9b59b6;
-            --glass: rgba(255, 255, 255, 0.92);
-            --border: rgba(44, 62, 80, 0.12);
-            --success: #27ae60;
+        /* MINECRAFT STYLE + FULL RTL/LTR SUPPORT */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', sans-serif; }
-
         body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #e8eef2 0%, #d5dee5 100%);
-            background-image: radial-gradient(circle at 10% 20%, rgba(142, 68, 173, 0.03) 0%, transparent 50%),
-                              repeating-linear-gradient(0deg, rgba(44, 62, 80, 0.02) 0px, rgba(44, 62, 80, 0.02) 1px, transparent 1px, transparent 20px);
+            background: #8B8B8B;
+            font-family: 'Press Start 2P', monospace;
+            padding: 20px;
+            background-image: 
+                linear-gradient(45deg, #7c7c7c 1px, transparent 1px),
+                linear-gradient(-45deg, #7c7c7c 1px, transparent 1px);
+            background-size: 40px 40px;
+            transition: all 0.2s;
+        }
+
+        /* language selector bar */
+        .lang-bar {
+            max-width: 1300px;
+            margin: 0 auto 15px auto;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            background: #2D2D2D;
+            padding: 10px 20px;
+            border: 3px solid #5A5A5A;
+            box-shadow: inset 0 0 0 2px #4A4A4A;
+        }
+        .lang-btn {
+            background: #6B6B6B;
+            border: none;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            padding: 8px 16px;
+            color: #FFDD99;
+            cursor: pointer;
+            box-shadow: inset -2px -2px 0 #2D2D2D, inset 2px 2px 0 #A5A5A5;
+            transition: 0.05s linear;
+        }
+        .lang-btn.active {
+            background: #3A6B3A;
+            box-shadow: inset 2px 2px 0 #1A3A1A;
+            color: #FFFFAA;
+            transform: translateY(1px);
+        }
+        .lang-btn:active {
+            transform: translateY(2px);
+        }
+
+        .minecraft-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: #C6C6C6;
+            border: 4px solid #373737;
+            box-shadow: inset 0 0 0 2px #F0F0F0, 0 10px 20px rgba(0,0,0,0.3);
+            padding: 25px;
+        }
+
+        /* RTL / LTR handling */
+        [dir="ltr"] .minecraft-container,
+        [dir="ltr"] .lang-bar {
+            direction: ltr;
+            text-align: left;
+        }
+        [dir="rtl"] .minecraft-container,
+        [dir="rtl"] .lang-bar {
+            direction: rtl;
+            text-align: right;
+        }
+        .flex-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .stat-block, .minecraft-panel {
+            flex: 1;
+        }
+
+        .pixel-header {
+            background: #6B4C3B;
+            border: 3px solid #2D2D2D;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: inset 0 0 0 2px #8B5A2B, 0 4px 0 #2D2D2D;
+        }
+        .pixel-header h1 {
+            font-size: 26px;
+            color: #FFD966;
+            text-shadow: 3px 3px 0 #2D2D2D;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            word-break: keep-all;
+        }
+        .minecraft-sub {
+            color: #A0A0A0;
+            font-size: 9px;
+            background: #2D2D2D;
+            display: inline-block;
+            padding: 6px 12px;
+            margin-top: 8px;
+            border: 2px solid #5A5A5A;
+        }
+        .stats-grid {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+        .stat-block {
+            background: #2D2D2D;
+            border: 3px solid #5A5A5A;
+            padding: 15px;
+            text-align: center;
+            box-shadow: inset 0 0 0 2px #4A4A4A, 0 4px 0 #1A1A1A;
+        }
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            display: inline-block;
+            background: #3A3A3A;
+            padding: 8px 12px;
+            border: 2px solid #6A6A6A;
+        }
+        .stat-number {
+            font-size: 38px;
+            font-weight: bold;
+            color: #55FF55;
+            text-shadow: 2px 2px 0 #1A5A1A;
+            background: #1F1F1F;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #5A5A5A;
+            letter-spacing: 2px;
+        }
+        .stat-label {
+            font-size: 9px;
+            color: #DDDDDD;
+            text-transform: uppercase;
+        }
+        .action-blocks {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        @media (max-width: 800px) {
+            .action-blocks { grid-template-columns: 1fr; }
+            .stat-number { font-size: 28px; }
+            .pixel-header h1 { font-size: 18px; }
+        }
+        .minecraft-panel {
+            background: #8B6B4D;
+            border: 4px solid #5A3E2A;
+            padding: 20px;
+            box-shadow: inset 0 0 0 2px #B58C5D, 0 6px 0 #3A2A1A;
+        }
+        .panel-title {
+            background: #2D2D2D;
+            color: #FFAA33;
+            padding: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 13px;
+            border: 2px solid #5A5A5A;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            position: relative;
+            gap: 12px;
         }
-
-        /* عناصر خلفية متحركة */
-        .bg-orb {
-            position: fixed;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(142,68,173,0.08) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-            animation: floatBg 20s infinite alternate;
+        .minecraft-desc {
+            background: #5A3E2A;
+            color: #EECC88;
+            padding: 12px;
+            font-size: 8px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            border: 2px solid #3A2A1A;
         }
-        @keyframes floatBg {
-            0% { transform: translate(-20%, -20%) scale(1); opacity: 0.4; }
-            100% { transform: translate(30%, 30%) scale(1.3); opacity: 0.7; }
-        }
-
-        /* الحاوية الرئيسية بتأثير زجاجي مطور */
-        .cyber-wrapper {
-            width: 100%;
-            max-width: 520px;
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            border-radius: 48px;
-            padding: 45px 35px;
-            box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255,255,255,0.6) inset, 0 0 0 1px rgba(0,0,0,0.05);
-            position: relative;
-            z-index: 10;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .cyber-wrapper:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 40px 70px -20px rgba(0, 0, 0, 0.3);
-        }
-
-        /* مراحل الموقع */
-        .step { display: none; text-align: center; }
-        .step.active { display: block; animation: stepFade 0.65s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
-
-        @keyframes stepFade {
-            from { opacity: 0; transform: translateY(20px) scale(0.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        /* أيقونات SVG متطورة */
-        .svg-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 20px;
-            display: block;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.05));
-            transition: transform 0.3s;
-        }
-        .step.active .svg-icon {
-            animation: iconPop 0.5s ease;
-        }
-        @keyframes iconPop {
-            0% { transform: scale(0.8); opacity: 0; }
-            80% { transform: scale(1.05); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        h2 {
-            font-family: 'Amiri', serif;
-            font-size: 32px;
-            color: var(--primary);
-            margin-bottom: 12px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        p.info {
-            font-size: 15px;
-            color: #5a6e7c;
-            line-height: 1.7;
-            margin-bottom: 30px;
-            font-weight: 500;
-        }
-
-        /* مدخلات أنيقة */
-        .input-group {
-            margin-bottom: 28px;
-            position: relative;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 18px 24px;
-            border-radius: 60px;
-            border: 1.5px solid rgba(44, 62, 80, 0.15);
-            background: rgba(255,255,255,0.9);
-            font-size: 17px;
-            font-weight: 500;
-            outline: none;
-            transition: all 0.25s;
-            text-align: center;
-            color: var(--primary);
-        }
-        .input-group input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.15);
-            background: white;
-            transform: scale(1.01);
-        }
-
-        /* أزرار مضيئة */
-        .action-btn {
-            width: 100%;
-            padding: 18px;
+        .minecraft-btn {
+            background: #6B6B6B;
             border: none;
-            border-radius: 60px;
-            background: linear-gradient(105deg, var(--primary), var(--primary-dark));
-            color: white;
-            font-weight: 800;
-            font-size: 18px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            padding: 12px 20px;
+            color: #FFFFFF;
+            text-shadow: 1px 1px 0 #2D2D2D;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 8px 18px rgba(44, 62, 80, 0.2);
-            letter-spacing: 0.3px;
+            box-shadow: inset -2px -2px 0 #2D2D2D, inset 2px 2px 0 #A5A5A5;
+            transition: 0.05s linear;
+            width: 100%;
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
-        .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(44, 62, 80, 0.25);
-            filter: brightness(1.03);
+        .minecraft-btn:active {
+            transform: translateY(2px);
+            box-shadow: inset 2px 2px 0 #2D2D2D, inset -1px -1px 0 #A5A5A5;
         }
-        .action-btn:active {
-            transform: translateY(1px);
+        .vote-group {
+            display: flex;
+            gap: 12px;
+            margin: 15px 0;
         }
-
-        /* الرسالة النهائية - بطاقة عاطفية */
-        .letter-content {
-            background: linear-gradient(145deg, #ffffff, #fef9f0);
-            padding: 30px 28px;
-            border-radius: 32px;
-            text-align: right;
-            border-right: 6px solid var(--accent);
-            margin-bottom: 28px;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255,255,255,0.8);
-            transition: all 0.3s;
+        .vote-btn { flex: 1; background: #4A6B3B; }
+        .vote-btn.down { background: #8B3A3A; }
+        .active-up { background: #5A8B3A !important; box-shadow: inset 2px 2px 0 #2D3A1A !important; transform: translateY(1px);}
+        .active-down { background: #B54A4A !important; box-shadow: inset 2px 2px 0 #6A2A2A !important; transform: translateY(1px);}
+        .preorder-count-block {
+            background: #2D2D2D;
+            padding: 12px;
+            margin-top: 15px;
+            text-align: center;
+            border: 2px solid #5A5A5A;
         }
-        .letter-text {
-            font-family: 'Amiri', serif;
-            font-size: 1.2rem;
-            line-height: 1.95;
-            color: #2c3e4e;
-            font-weight: 500;
+        .preorder-count-block span { color: #55FF55; font-size: 26px; font-weight: bold; }
+        .score-indicator {
+            background: #1F1F1F;
+            padding: 8px;
+            text-align: center;
+            margin-top: 12px;
+            font-size: 9px;
+            color: #FFAA55;
         }
-        .letter-text b {
-            color: #8e44ad;
-            font-weight: 800;
-            background: linear-gradient(135deg, #8e44ad, #c0392b);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            display: inline-block;
+        .github-section {
+            background: #4A3A2A;
+            border: 3px solid #2D2D2D;
+            padding: 15px;
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        .signature {
-            margin-top: 20px;
-            font-weight: 800;
-            color: var(--primary);
-            display: block;
-            font-size: 1rem;
-            border-top: 1px dashed rgba(0,0,0,0.1);
-            padding-top: 12px;
-            text-align: left;
-            font-family: 'Amiri', serif;
-        }
-
-        /* تلميحات ذكية */
-        .puzzle-hint {
-            font-size: 13px;
-            color: #7f8c8d;
-            background: rgba(142, 68, 173, 0.05);
-            padding: 12px 16px;
-            border-radius: 28px;
-            margin-top: 18px;
-            display: inline-block;
-            width: auto;
-            backdrop-filter: blur(4px);
-        }
-
-        /* زر فيسبوك أنيق */
-        .fb-link-custom {
+        .github-link {
+            background: #2D2D2D;
+            padding: 8px 15px;
             text-decoration: none;
-            display: block;
+            color: #FFAA33;
+            font-size: 9px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid #5A5A5A;
         }
-        .fb-btn {
-            background: linear-gradient(105deg, #1877f2, #0e63c4);
-            box-shadow: 0 8px 18px rgba(24, 119, 242, 0.2);
+        .token-display {
+            background: #1F1F1F;
+            padding: 8px 12px;
+            font-size: 7px;
+            font-family: monospace;
+            color: #8B8B8B;
+            border: 1px solid #5A5A5A;
+            margin-top: 12px;
+            text-align: center;
         }
-        .fb-btn:hover {
-            background: linear-gradient(105deg, #1a74e4, #0c54a8);
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 7px;
+            color: #3A3A3A;
+            background: #2D2D2D;
+            padding: 12px;
+            border: 2px solid #5A5A5A;
         }
-
-        /* رسالة نجاح صغيرة */
-        .toast-msg {
+        .minecraft-toast {
             position: fixed;
             bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--primary);
-            color: white;
-            padding: 10px 24px;
-            border-radius: 50px;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            z-index: 200;
-            font-weight: bold;
-        }
-
-        /* مؤشر تحميل */
-        .ripple-effect {
-            position: relative;
-            overflow: hidden;
-        }
-        .ripple-effect:after {
-            content: "";
-            display: block;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            background-image: radial-gradient(circle, #fff 10%, transparent 10%);
-            background-repeat: no-repeat;
-            background-position: 50%;
-            transform: scale(10);
-            opacity: 0;
-            transition: transform 0.5s, opacity 0.6s;
-        }
-        .ripple-effect:active:after {
-            transform: scale(0);
-            opacity: 0.3;
-            transition: 0s;
-        }
-
-        @media (max-width: 550px) {
-            .cyber-wrapper { padding: 32px 22px; }
-            h2 { font-size: 26px; }
-            .letter-text { font-size: 1rem; }
+            right: 30px;
+            background: #1F1F1F;
+            border: 3px solid #5A5A5A;
+            padding: 12px 20px;
+            color: #AAFFAA;
+            font-size: 9px;
+            z-index: 1000;
+            font-family: monospace;
+            box-shadow: 4px 4px 0 #0A0A0A;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+<div class="lang-bar" id="langBar">
+    <button class="lang-btn" data-lang="ar">العربية</button>
+    <button class="lang-btn" data-lang="en">ENGLISH</button>
+    <button class="lang-btn" data-lang="fr">FRANÇAIS</button>
+</div>
+<div class="minecraft-container" id="appContainer">
+    <div class="pixel-header">
+        <h1><i class="fas fa-cube"></i> <span id="titleText">Apple App Mods</span> <i class="fas fa-pickaxe"></i></h1>
+        <div class="minecraft-sub" id="subText">PRE-ORDER & VOTING CRAFTING TABLE</div>
+    </div>
 
-    <div class="bg-orb" style="top: -150px; left: -100px;"></div>
-    <div class="bg-orb" style="bottom: -120px; right: -80px; width: 600px; height: 600px; animation-duration: 25s;"></div>
-
-    <div class="cyber-wrapper">
-        <!-- المرحلة الأولى: اسم إسراء -->
-        <div id="step-1" class="step active">
-            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C9.243 2 7 4.243 7 7V9H6C4.897 9 4 9.897 4 11V20C4 21.103 4.897 22 6 22H18C19.103 22 20 21.103 20 20V11C20 9.897 19.103 9 18 9H17V7C17 4.243 14.757 2 12 2ZM9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7V9H9V7ZM12 16C11.172 16 10.5 15.328 10.5 14.5C10.5 13.672 11.172 13 12 13C12.828 13 13.5 13.672 13.5 14.5C13.5 15.328 12.828 16 12 16Z" fill="#2c3e50"/>
-            </svg>
-            <h2>بروتوكول التصريح</h2>
-            <p class="info">أهلاً بكِ.. هذه المساحة مصممة خصيصاً من أجلكِ. يرجى كتابة اسمكِ للدخول.</p>
-            <div class="input-group">
-                <input type="text" id="name-in" placeholder="اسمكِ الجميل (إسراء أو Esra)" autocomplete="off">
-            </div>
-            <button class="action-btn ripple-effect" id="step1Btn">تأكيد الهوية 🔑</button>
+    <!-- STATS REAL NUMBERS -->
+    <div class="stats-grid">
+        <div class="stat-block">
+            <div class="stat-icon"><i class="fas fa-vote-yea"></i></div>
+            <div class="stat-number" id="totalVotesStat">0</div>
+            <div class="stat-label" id="totalVotesLabel">TOTAL VOTES</div>
         </div>
-
-        <!-- المرحلة الثانية: اسم معاذ (اللقب الوحيد) بالعربية أو الأجنبية -->
-        <div id="step-2" class="step">
-            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 5C13.1 5 14 5.9 14 7C14 8.1 13.1 9 12 9C10.9 9 10 8.1 10 7C10 5.9 10.9 5 12 5ZM12 19.2C9.5 19.2 7.29 17.92 6 15.98C6.03 13.99 10 12.9 12 12.9C13.99 12.9 17.97 13.99 18 15.98C16.71 17.92 14.5 19.2 12 19.2Z" fill="#2c3e50"/>
-            </svg>
-            <h2>تأكيد الصانع</h2>
-            <p class="info">اسم مبرمج تلقايه في qr لي راه عندك</p>
-            <div class="input-group">
-                <input type="text" id="cfg-in" placeholder="اسم المبرمج" autocomplete="off">
-            </div>
-            <button class="action-btn ripple-effect" id="step2Btn">فك القفل 🔓</button>
-            <div class="puzzle-hint">
-                تلميح : تلقايه في ورقة بار كود ولا qr
-            </div>
+        <div class="stat-block">
+            <div class="stat-icon"><i class="fas fa-download"></i></div>
+            <div class="stat-number" id="preorderStat">0</div>
+            <div class="stat-label" id="preorderStatLabel">PRE-ORDER REQUESTS</div>
         </div>
-
-        <!-- المرحلة الثالثة: الرسالة النهائية -->
-        <div id="step-3" class="step">
-            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="#2c3e50"/>
-            </svg>
-            <h2>رسالة من عندي 🙂</h2>
-            <div class="letter-content">
-                <div class="letter-text">
-                    <br>شوفي اسراء راني نستنى فيك راني مسحقك بزاف وبلا توسويس زايد انا <b>معاذ زروقي</b><br>
-                </div>
-                <span class="signature">— معاذ زروقي (Mouad Zerouki)</span>
-            </div>
-            <a href="https://www.facebook.com/Ahmed.meoud.24" target="_blank" class="fb-link-custom">
-                <button class="action-btn fb-btn ripple-effect">بعثيلي "اسراء ولا سلام" على فيسبوك نفهمك</button>
-            </a>
-            <div class="puzzle-hint" style="margin-top: 20px;">
-                راني نستنى في ميساج تاعك😁
-            </div>
+        <div class="stat-block">
+            <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="stat-number" id="netScoreStat">0</div>
+            <div class="stat-label" id="netLabel">NET SCORE</div>
         </div>
     </div>
 
-    <div id="toast-msg" class="toast-msg">✓ تم التحقق بنجاح</div>
+    <div class="action-blocks">
+        <!-- VOTING PANEL -->
+        <div class="minecraft-panel">
+            <div class="panel-title"><i class="fas fa-gavel"></i> <span id="votePanelTitle">COMMUNITY VOTE</span></div>
+            <div class="minecraft-desc" id="voteDesc">CAST YOUR EMERALD OR ROTTEN FLESH VOTE! EVERY VOTE SHAPES THE MOD'S FATE.</div>
+            <div class="vote-group">
+                <button id="upvoteBtn" class="minecraft-btn vote-btn"><i class="fas fa-thumbs-up"></i> <span id="approveText">APPROVE [+1]</span></button>
+                <button id="downvoteBtn" class="minecraft-btn vote-btn down"><i class="fas fa-thumbs-down"></i> <span id="declineText">DECLINE [-1]</span></button>
+            </div>
+            <div class="score-indicator"><i class="fas fa-balance-scale"></i> <span id="balanceLabel">CURRENT BALANCE</span>: <strong id="currentScoreBalance">0</strong></div>
+        </div>
 
-    <audio id="success-sound" preload="auto" src="https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3"></audio>
+        <!-- PRE-ORDER PANEL -->
+        <div class="minecraft-panel">
+            <div class="panel-title"><i class="fas fa-cube"></i> <span id="preorderPanelTitle">PRE-INSTALL CRAFTING</span></div>
+            <div class="minecraft-desc" id="preorderDesc">REQUEST PRE-INSTALL & EARLY ACCESS. CLICK THE ANVIL TO SECURE YOUR SLOT.</div>
+            <button id="preorderBtn" class="minecraft-btn"><i class="fas fa-hammer"></i> <span id="preorderBtnText">REQUEST PRE-INSTALLATION</span></button>
+            <div class="preorder-count-block"><i class="fas fa-users"></i> <span id="preorderInterestLabel">PLAYERS INTERESTED</span>: <span id="preorderCountInline">0</span></div>
+            <div style="font-size: 7px; margin-top: 12px; text-align: center; color:#B5A57A;"><i class="fas fa-info-circle"></i> <span id="preorderHint">+1 TO PRE-ORDER COUNT. REAL DATA.</span></div>
+        </div>
+    </div>
 
-    <script>
-        (function() {
-            // عناصر DOM
-            const step1Div = document.getElementById('step-1');
-            const step2Div = document.getElementById('step-2');
-            const step3Div = document.getElementById('step-3');
-            const nameInput = document.getElementById('name-in');
-            const devInput = document.getElementById('cfg-in');
-            const step1Button = document.getElementById('step1Btn');
-            const step2Button = document.getElementById('step2Btn');
-            const sound = document.getElementById('success-sound');
-            const toastMsg = document.getElementById('toast-msg');
+    <div class="github-section">
+        <div><i class="fab fa-github"></i> <strong style="color:#FFAA55;">ramadhan8767/apple</strong> <span id="repoStatusDisplay" style="font-size: 8px; background:#2D2D2D; padding: 4px 8px;">repo active</span></div>
+        <a href="https://github.com/ramadhan8767/apple" target="_blank" class="github-link"><i class="fas fa-external-link-alt"></i> <span id="visitRepoText">VISIT REPOSITORY</span></a>
+    </div>
+    <div class="token-display"><i class="fas fa-key"></i> GH_TOKEN : <span id="tokenMaskSpan"></span></div>
+    <footer id="footerText"><i class="fas fa-crafting"></i> JSON DATABASE (LOCALSTORAGE) • REAL NUMBERS • MINECRAFT STYLE</footer>
+</div>
 
-            // وظيفة تشغيل الصوت بلطف
-            function playSuccessSound() {
-                if (sound) {
-                    sound.volume = 0.3;
-                    sound.play().catch(e => console.log("تفاعل مطلوب لتشغيل الصوت"));
-                }
-            }
+<script>
+    // ----------------------------- REAL JSON DATABASE (NO FAKE NUMBERS) -----------------------------
+    const DB_KEY = "apple_mods_mc_db";
+    const USER_VOTE_KEY = "apple_mods_user_vote_mc";
 
-            // عرض رسالة منبثقة صغيرة
-            function showToast(message, isError = false) {
-                toastMsg.textContent = message;
-                toastMsg.style.backgroundColor = isError ? '#e74c3c' : '#2c3e50';
-                toastMsg.style.opacity = '1';
-                setTimeout(() => {
-                    toastMsg.style.opacity = '0';
-                }, 2000);
-            }
+    function loadDatabase() {
+        let raw = localStorage.getItem(DB_KEY);
+        if (!raw) {
+            const defaultDB = { votesUp: 0, votesDown: 0, preOrders: 0 };
+            localStorage.setItem(DB_KEY, JSON.stringify(defaultDB));
+            return defaultDB;
+        }
+        return JSON.parse(raw);
+    }
+    function saveDatabase(db) { localStorage.setItem(DB_KEY, JSON.stringify(db)); }
+    function getUserVote() { return localStorage.getItem(USER_VOTE_KEY); }
+    function setUserVote(vote) { if (!vote) localStorage.removeItem(USER_VOTE_KEY); else localStorage.setItem(USER_VOTE_KEY, vote); }
 
-            // وظيفة الانتقال بين المراحل بشكل سلس
-            function switchToStep(stepNumber) {
-                const steps = [step1Div, step2Div, step3Div];
-                for (let i = 0; i < steps.length; i++) {
-                    if (steps[i]) {
-                        steps[i].classList.remove('active');
-                        steps[i].style.display = 'none';
-                    }
-                }
-                const targetStep = document.getElementById(`step-${stepNumber}`);
-                if (targetStep) {
-                    targetStep.style.display = 'block';
-                    setTimeout(() => {
-                        targetStep.classList.add('active');
-                        // إضافة تأثير اهتزاز خفيف للاحتفاء
-                        const wrapper = document.querySelector('.cyber-wrapper');
-                        wrapper.style.transform = 'scale(0.99)';
-                        setTimeout(() => { wrapper.style.transform = ''; }, 200);
-                    }, 20);
-                }
-            }
+    // DOM elements references
+    const totalVotesSpan = document.getElementById("totalVotesStat");
+    const preorderStatSpan = document.getElementById("preorderStat");
+    const netScoreSpan = document.getElementById("netScoreStat");
+    const currentBalanceSpan = document.getElementById("currentScoreBalance");
+    const preorderInlineSpan = document.getElementById("preorderCountInline");
+    const upBtn = document.getElementById("upvoteBtn");
+    const downBtn = document.getElementById("downvoteBtn");
+    const preorderBtnElem = document.getElementById("preorderBtn");
 
-            // التحقق من المرحلة 1: اسم إسراء بجميع صيغه
-            function validateIsraName() {
-                let rawName = nameInput.value.trim();
-                if (rawName === "") {
-                    showToast("يرجى كتابة اسمك أولاً", true);
-                    return false;
-                }
-                const normalized = rawName.toLowerCase().replace(/\s/g, '');
-                // قائمة موسعة لأسماء إسراء
-                const allowedNames = ['إسراء', 'اسراء', 'esra', 'esraa', 'israa', 'isra'];
-                let isValid = allowedNames.some(valid => normalized === valid);
-                // التحقق أيضاً إذا كان النص يحتوي على إسراء بالعربية
-                if (!isValid && (rawName.includes('إسراء') || rawName.includes('اسراء'))) {
-                    isValid = true;
-                }
-                if (!isValid) {
-                    showToast("الاسم غير معتمد، يجب أن يكون إسراء / Esra / israa / isra", true);
-                    nameInput.style.borderColor = "#e74c3c";
-                    setTimeout(() => nameInput.style.borderColor = "", 1000);
-                    return false;
-                }
-                return true;
-            }
+    function refreshUI() {
+        const db = loadDatabase();
+        const up = db.votesUp, down = db.votesDown, pre = db.preOrders;
+        const total = up + down;
+        const net = up - down;
+        totalVotesSpan.innerText = total;
+        preorderStatSpan.innerText = pre;
+        netScoreSpan.innerText = net;
+        currentBalanceSpan.innerText = net;
+        preorderInlineSpan.innerText = pre;
+        const userVote = getUserVote();
+        if (userVote === 'up') { upBtn.classList.add("active-up"); downBtn.classList.remove("active-down"); }
+        else if (userVote === 'down') { downBtn.classList.add("active-down"); upBtn.classList.remove("active-up"); }
+        else { upBtn.classList.remove("active-up"); downBtn.classList.remove("active-down"); }
+    }
 
-            // التحقق من المرحلة 2: اسم معاذ فقط - بالعربية أو بأي صيغة أجنبية تدل على "معاذ" أو "Mouad" أو "Zerouki" 
-            // (الشرط: يحتوي على أي من المتغيرات الأساسية للقب معاذ)
-            function validateMouadName() {
-                let inputVal = devInput.value.trim();
-                if (inputVal === "") {
-                    showToast("الرجاء إدخال اسم المبرمج", true);
-                    return false;
-                }
-                const lowerVal = inputVal.toLowerCase().replace(/\s+/g, ' ').trim();
-                
-                // القائمة الكاملة للقب "معاذ" بالعربية و الأجنبية + اللقب Zerouki
-                const mouadKeywords = [
-                    "معاذ", "مـعاذ", "معاذزروقي", "معاذ زروقي",
-                    "mouad", "mouadzerouki", "mouad zerouki", "mouad.zrk", "mouad.zr",
-                    "mouad.dev", "mouadzrk", "mouadz", "zerouki", "zrk"
-                ];
-                
-                let isValid = false;
-                for (let keyword of mouadKeywords) {
-                    if (lowerVal.includes(keyword)) {
-                        isValid = true;
-                        break;
-                    }
-                }
-                // قبول حتى لو كتب mouad فقط
-                if (lowerVal === "mouad" || lowerVal === "معاذ") isValid = true;
-                
-                // قبول صيغة "mouad24" أو أي شيئ يحوي mouad
-                if (lowerVal.includes("mouad") || lowerVal.includes("معاذ")) isValid = true;
-                
-                if (!isValid) {
-                    showToast("الاسم غير مطابق للقب المبرمج", true);
-                    devInput.style.borderColor = "#e74c3c";
-                    setTimeout(() => devInput.style.borderColor = "", 1000);
-                    return false;
-                }
-                return true;
-            }
+    function showToast(msg) {
+        let existing = document.querySelector(".minecraft-toast");
+        if (existing) existing.remove();
+        let toast = document.createElement("div");
+        toast.className = "minecraft-toast";
+        toast.innerHTML = `<i class="fas fa-apple-alt"></i> ${msg}`;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+    }
 
-            // معالج الخطوة الأولى
-            function handleStep1() {
-                if (validateIsraName()) {
-                    playSuccessSound();
-                    showToast("✓ مرحباً إسراء، تم فتح الباب الأول");
-                    switchToStep(2);
-                }
-            }
+    function performVote(type) {
+        const db = loadDatabase();
+        const current = getUserVote();
+        let updated = false;
+        let newDb = { ...db };
+        if ((type === 'up' && current === 'up') || (type === 'down' && current === 'down')) {
+            showToast(currentLangData.toast.alreadyVoted);
+            return;
+        }
+        if (current === 'up' && type === 'down') {
+            newDb.votesUp = Math.max(0, newDb.votesUp - 1);
+            newDb.votesDown += 1;
+            setUserVote('down');
+            updated = true;
+        } else if (current === 'down' && type === 'up') {
+            newDb.votesDown = Math.max(0, newDb.votesDown - 1);
+            newDb.votesUp += 1;
+            setUserVote('up');
+            updated = true;
+        } else if (!current) {
+            if (type === 'up') { newDb.votesUp += 1; setUserVote('up'); updated = true; }
+            else { newDb.votesDown += 1; setUserVote('down'); updated = true; }
+        }
+        if (updated) {
+            saveDatabase(newDb);
+            refreshUI();
+            showToast(type === 'up' ? currentLangData.toast.voteUp : currentLangData.toast.voteDown);
+        } else showToast(currentLangData.toast.error);
+    }
 
-            // معالج الخطوة الثانية (اسم معاذ فقط)
-            function handleStep2() {
-                if (validateMouadName()) {
-                    playSuccessSound();
-                    showToast("✓ تم التحقق من هوية الصانع، مرحباً بك في الخاتمة");
-                    switchToStep(3);
-                }
-            }
+    function addPreOrder() {
+        const db = loadDatabase();
+        db.preOrders += 1;
+        saveDatabase(db);
+        refreshUI();
+        showToast(currentLangData.toast.preorderAdded);
+    }
 
-            // ربط الأحداث
-            step1Button.addEventListener('click', handleStep1);
-            step2Button.addEventListener('click', handleStep2);
-            
-            // إدخال عبر الضغط على Enter
-            nameInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') handleStep1();
-            });
-            devInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') handleStep2();
-            });
-            
-            // تفعيل الصوت بأول تفاعل (للتغلب على سياسة المتصفحات)
-            const enableAudioOnce = () => {
-                if (sound) {
-                    sound.load();
-                    sound.volume = 0.3;
-                    sound.play().catch(() => {});
-                }
-                document.body.removeEventListener('click', enableAudioOnce);
-                document.body.removeEventListener('touchstart', enableAudioOnce);
-            };
-            document.body.addEventListener('click', enableAudioOnce);
-            document.body.addEventListener('touchstart', enableAudioOnce);
-            
-            // تأثيرات إضافية: تلوين الأزرار بتأثير موجة
-            const btns = document.querySelectorAll('.action-btn');
-            btns.forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    let ripple = document.createElement('span');
-                    ripple.classList.add('ripple');
-                    ripple.style.position = 'absolute';
-                    ripple.style.borderRadius = '50%';
-                    ripple.style.backgroundColor = 'rgba(255,255,255,0.5)';
-                    ripple.style.width = '20px';
-                    ripple.style.height = '20px';
-                    ripple.style.transform = 'scale(1)';
-                    ripple.style.opacity = '0';
-                    const rect = btn.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height);
-                    ripple.style.width = ripple.style.height = `${size}px`;
-                    const x = e.clientX - rect.left - size/2;
-                    const y = e.clientY - rect.top - size/2;
-                    ripple.style.left = `${x}px`;
-                    ripple.style.top = `${y}px`;
-                    ripple.style.transition = 'transform 0.4s, opacity 0.5s';
-                    btn.style.position = 'relative';
-                    btn.style.overflow = 'hidden';
-                    ripple.style.pointerEvents = 'none';
-                    btn.appendChild(ripple);
-                    setTimeout(() => {
-                        ripple.style.transform = 'scale(4)';
-                        ripple.style.opacity = '0.3';
-                    }, 10);
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 500);
-                });
-            });
-            
-            // إضافة تلميحات إضافية ديناميكية للمرحلة الثانية بشكل مباشر 
-            const hintDiv = document.querySelector('#step-2 .puzzle-hint');
-            if (hintDiv) {
-                let texts = ["واحد فيلسوف في برمجة ويكرهك بيها 🙂", "اسم مبرمج واحد كان يقرى معاك عام لي فات كان يريح حذى هشام🙂"];
-                let idx = 0;
-                setInterval(() => {
-                    if (step2Div && step2Div.classList.contains('active')) {
-                        idx = (idx + 1) % texts.length;
-                        hintDiv.innerHTML = `✨ ${texts[idx]}`;
-                    }
-                }, 4000);
-            }
-            
-            // تحسين ظهور الرسالة عند الوصول للخطوة الثالثة مع تأثير تلألؤ
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mut) => {
-                    if (mut.target.classList && mut.target.classList.contains('active') && mut.target.id === 'step-3') {
-                        const letter = document.querySelector('.letter-content');
-                        if (letter) {
-                            letter.style.animation = 'stepFade 0.7s ease';
-                            setTimeout(() => { letter.style.animation = ''; }, 700);
-                        }
-                    }
-                });
-            });
-            observer.observe(step3Div, { attributes: true, attributeFilter: ['class'] });
-            
-            // تحسين الشكل العام للرسالة النهائية
-            const style = document.createElement('style');
-            style.textContent = `
-                .ripple {
-                    position: absolute;
-                    border-radius: 50%;
-                    background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%);
-                    transform: scale(0);
-                    animation: rippleAnim 0.5s linear;
-                    pointer-events: none;
-                }
-                @keyframes rippleAnim {
-                    to { transform: scale(6); opacity: 0; }
-                }
-                .action-btn { position: relative; overflow: hidden; }
-                .letter-text b {
-                    background: linear-gradient(115deg, #8e44ad, #c0392b);
-                    background-clip: text;
-                    -webkit-background-clip: text;
-                }
-            `;
-            document.head.appendChild(style);
-            
-            // التأكد من أن كل شيء يظهر بشكل آمن في بداية التشغيل
-            if (!step1Div.classList.contains('active')) {
-                step1Div.style.display = 'block';
-                step1Div.classList.add('active');
-                step2Div.style.display = 'none';
-                step3Div.style.display = 'none';
-            }
-            
-            // معاينة الإصدار: إضافة خاصية ذكية لتأكيد أن اسم معاذ هو المطلوب فقط
-            console.log("✅ Protocol v3.0 | Special for Israa & Mouad");
-        })();
-    </script>
+    // ----------------------------- MULTI-LANGUAGE (AR/EN/FR) -----------------------------
+    let currentLang = "ar";
+    const langData = {
+        ar: {
+            title: "Apple App Mods",
+            sub: "طلب مسبق وتصويت | ستايل ماين كرافت",
+            totalVotesLabel: "إجمالي الأصوات",
+            preorderStatLabel: "طلبات التثبيت المسبق",
+            netLabel: "صافي النقاط",
+            votePanelTitle: "تصويت المجتمع",
+            voteDesc: "صوّت بإيميرالد أو لحم فاسد! كل صوت يحدد مصير التطبيق.",
+            approveText: "موافقة [+1]",
+            declineText: "رفض [-1]",
+            balanceLabel: "الرصيد الحالي",
+            preorderPanelTitle: "طلب التثبيت المسبق",
+            preorderDesc: "اطلب التثبيت المسبق والوصول المبكر. اضغط على السندان لحجز مكانك.",
+            preorderBtnText: "طلب التثبيت المسبق",
+            playersInterested: "اللاعبون المهتمون",
+            preorderHint: "+1 إلى عداد الطلبات المسبقة. بيانات حقيقية.",
+            visitRepo: "زيارة المستودع",
+            footer: "قاعدة بيانات JSON (تخزين محلي) • أرقام حقيقية • تصميم ماين كرافت",
+            toast: { alreadyVoted: "لقد صوّت بالفعل!", voteUp: "تم التصويت بالموافقة +1", voteDown: "تم التصويت بالرفض +1", error: "لم يتغير التصويت", preorderAdded: "تم إضافة طلب تثبيت مسبق +1" }
+        },
+        en: {
+            title: "Apple App Mods",
+            sub: "Pre-order & Voting | Minecraft Style",
+            totalVotesLabel: "TOTAL VOTES",
+            preorderStatLabel: "PRE-ORDER REQUESTS",
+            netLabel: "NET SCORE",
+            votePanelTitle: "COMMUNITY VOTE",
+            voteDesc: "Cast your emerald or rotten flesh vote! Every vote shapes the mod's fate.",
+            approveText: "APPROVE [+1]",
+            declineText: "DECLINE [-1]",
+            balanceLabel: "CURRENT BALANCE",
+            preorderPanelTitle: "PRE-INSTALL CRAFTING",
+            preorderDesc: "Request pre-install & early access. Click the anvil to secure your slot.",
+            preorderBtnText: "REQUEST PRE-INSTALLATION",
+            playersInterested: "PLAYERS INTERESTED",
+            preorderHint: "+1 to pre-order count. Real data.",
+            visitRepo: "VISIT REPOSITORY",
+            footer: "JSON DATABASE (LOCALSTORAGE) • REAL NUMBERS • MINECRAFT STYLE",
+            toast: { alreadyVoted: "You already voted!", voteUp: "Approved +1", voteDown: "Declined +1", error: "Vote unchanged", preorderAdded: "Pre-order added +1" }
+        },
+        fr: {
+            title: "Apple App Mods",
+            sub: "Précommande & Vote | Style Minecraft",
+            totalVotesLabel: "VOTES TOTAUX",
+            preorderStatLabel: "PRÉCOMMANDES",
+            netLabel: "SCORE NET",
+            votePanelTitle: "VOTE COMMUNAUTAIRE",
+            voteDesc: "Votez avec émeraude ou chair pourrie! Chaque vote façonne le destin du mod.",
+            approveText: "APPROUVER [+1]",
+            declineText: "REFUSER [-1]",
+            balanceLabel: "SOLDE ACTUEL",
+            preorderPanelTitle: "PRÉINSTALLATION",
+            preorderDesc: "Demandez la préinstallation et l'accès anticipé. Cliquez sur l'enclume.",
+            preorderBtnText: "DEMANDER LA PRÉINSTALLATION",
+            playersInterested: "JOUEURS INTÉRESSÉS",
+            preorderHint: "+1 au compteur de précommandes. Données réelles.",
+            visitRepo: "VOIR DÉPÔT",
+            footer: "BASE JSON (LOCALSTORAGE) • CHIFFRES RÉELS • STYLE MINECRAFT",
+            toast: { alreadyVoted: "Vous avez déjà voté!", voteUp: "Approuvé +1", voteDown: "Refusé +1", error: "Vote inchangé", preorderAdded: "Précommande ajoutée +1" }
+        }
+    };
+    let currentLangData = langData.ar;
+
+    function updateLanguage(lang) {
+        currentLang = lang;
+        currentLangData = langData[lang];
+        document.getElementById("titleText").innerText = currentLangData.title;
+        document.getElementById("subText").innerText = currentLangData.sub;
+        document.getElementById("totalVotesLabel").innerText = currentLangData.totalVotesLabel;
+        document.getElementById("preorderStatLabel").innerText = currentLangData.preorderStatLabel;
+        document.getElementById("netLabel").innerText = currentLangData.netLabel;
+        document.getElementById("votePanelTitle").innerText = currentLangData.votePanelTitle;
+        document.getElementById("voteDesc").innerText = currentLangData.voteDesc;
+        document.getElementById("approveText").innerText = currentLangData.approveText;
+        document.getElementById("declineText").innerText = currentLangData.declineText;
+        document.getElementById("balanceLabel").innerText = currentLangData.balanceLabel;
+        document.getElementById("preorderPanelTitle").innerText = currentLangData.preorderPanelTitle;
+        document.getElementById("preorderDesc").innerText = currentLangData.preorderDesc;
+        document.getElementById("preorderBtnText").innerText = currentLangData.preorderBtnText;
+        document.getElementById("preorderInterestLabel").innerHTML = currentLangData.playersInterested;
+        document.getElementById("preorderHint").innerHTML = currentLangData.preorderHint;
+        document.getElementById("visitRepoText").innerText = currentLangData.visitRepo;
+        document.getElementById("footerText").innerHTML = `<i class="fas fa-crafting"></i> ${currentLangData.footer}`;
+        document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+        document.documentElement.lang = lang;
+        // adjust container class direction
+        const container = document.getElementById("appContainer");
+        if (lang === "ar") container.style.direction = "rtl";
+        else container.style.direction = "ltr";
+        // active button style
+        document.querySelectorAll(".lang-btn").forEach(btn => {
+            if (btn.getAttribute("data-lang") === lang) btn.classList.add("active");
+            else btn.classList.remove("active");
+        });
+    }
+
+    // github info & token
+    async function fetchRepoStatus() {
+        try {
+            const res = await fetch("https://api.github.com/repos/ramadhan8767/apple");
+            if (res.ok) {
+                const data = await res.json();
+                const stars = data.stargazers_count || 0;
+                document.getElementById("repoStatusDisplay").innerHTML = `<i class="fas fa-star"></i> ${stars} stars • html`;
+            } else { document.getElementById("repoStatusDisplay").innerHTML = `<i class="fab fa-github"></i> repo ready`; }
+        } catch(e) { document.getElementById("repoStatusDisplay").innerHTML = `<i class="fas fa-cube"></i> available`; }
+    }
+
+    const fullToken = "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";
+    function maskToken(t) { return t.length > 20 ? t.substring(0, 16) + "••••••" + t.slice(-6) : t; }
+    document.getElementById("tokenMaskSpan").innerText = maskToken(fullToken);
+
+    // event binding & integrity
+    function ensureRealNumbers() {
+        let db = loadDatabase();
+        let changed = false;
+        if (typeof db.votesUp !== 'number' || isNaN(db.votesUp)) { db.votesUp = 0; changed = true; }
+        if (typeof db.votesDown !== 'number' || isNaN(db.votesDown)) { db.votesDown = 0; changed = true; }
+        if (typeof db.preOrders !== 'number' || isNaN(db.preOrders)) { db.preOrders = 0; changed = true; }
+        if (changed) saveDatabase(db);
+        refreshUI();
+    }
+
+    upBtn.addEventListener("click", () => performVote("up"));
+    downBtn.addEventListener("click", () => performVote("down"));
+    preorderBtnElem.addEventListener("click", addPreOrder);
+    document.querySelectorAll(".lang-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => { updateLanguage(btn.getAttribute("data-lang")); });
+    });
+
+    ensureRealNumbers();
+    fetchRepoStatus();
+    updateLanguage("ar");
+</script>
 </body>
 </html>
